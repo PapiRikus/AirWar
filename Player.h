@@ -1,21 +1,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include <QObject>
 #include <string>
-//TEMP
-#include <QGraphicsScene> // --------
-//TEMP
-#include "Bullet.h"
+#include <QGraphicsScene>
+#include <QList>
+#include "PowerUp.h"
 
-class Player: public QObject, public QGraphicsRectItem {
+class Player: public QObject, public QGraphicsPixmapItem {
 
     Q_OBJECT
 
     private:
+
         //Attributes
-        std::string _name;
+        QString _name;
         int _width;
         int _height;
         int _score;
@@ -24,17 +24,38 @@ class Player: public QObject, public QGraphicsRectItem {
         int _usedMemory;
         int _lives;
         int _weaponType;
-        int _speed;
+        int _speedX;
+        int _speedY;
+        bool _shieldPowerUp;
 
+        QList<PowerUp*> _powerUpsList;
 
     public:
-        Player(std::string, int, int, int, int);
+
+        Player(QString, int, int);
 
         void moveRight();
 
         void moveLeft();
 
-        void shoot();
+        void moveUp();
+
+        void moveDown();
+
+        void move(int, int);
+
+        void increaseScore(int);
+
+        void increaseLives();
+
+        void decreaseLives();
+
+        void receivePowerUp(PowerUp*);
+
+        void activatePowerUp();
+
+        QString getName() const;
+        void setName(QString);
 
         int getScore() const;
         void setScore(int);
@@ -60,10 +81,16 @@ class Player: public QObject, public QGraphicsRectItem {
         int getWeaponType() const;
         void setWeaponType(int);
 
-        int getSpeed() const;
-        void setSpeed(int);
+        int getSpeedX() const;
+        void setSpeedX(int);
 
-        //void insertPowerUp(PowerUp pPowerUp);
+        int getSpeedY() const;
+        void setSpeedY(int) const;
+
+        bool haveShield();
+        void changeStateOfShield();
+
+        void resetStatistics();
 
 };
 

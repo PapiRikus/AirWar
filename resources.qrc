@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>airWarLogo.png</file>
+        <file>playerAirplane.png</file>
+        <file>bullet.png</file>
+        <file>enemy1.png</file>
+        <file>enemy2.png</file>
+        <file>enemyBullet.png</file>
+        <file>rocket.png</file>
+        <file>pausedGameLogo.png</file>
+        <file>powerUpShield.png</file>
+        <file>powerUpRocket.png</file>
+        <file>powerUpLaser.png</file>
+        <file>fondo.gif</file>
+        <file>FondoLejos.png</file>
+        <file>alienboss.png</file>
+        <file>alien22.png</file>
+        <file>towerBullet.png</file>
+        <file>alien33.png</file>
+    </qresource>
+</RCC>

@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,11 +29,22 @@ SOURCES += main.cpp \
     LogginWindow.cpp \
     Player.cpp \
     Bullet.cpp \
-    Enemy.cpp
+    Enemy.cpp \
+    PowerUp.cpp \
+    Server.cpp \
+    ListeningThread.cpp \
+    jefe.cpp
 
 HEADERS  += \
     GameWindow.h \
     LogginWindow.h \
     Player.h \
     Bullet.h \
-    Enemy.h
+    Enemy.h \
+    PowerUp.h \
+    Server.h \
+    ListeningThread.h \
+    jefe.h
+
+RESOURCES += \
+    resources.qrc
