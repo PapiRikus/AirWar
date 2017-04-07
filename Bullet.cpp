@@ -43,7 +43,7 @@ Bullet::Bullet(int pType, int pPosX, int pPosY): QObject(), QGraphicsPixmapItem(
 
     }
 
-    //If the Bullet is a Bullet from the Tower
+    //If the Bulle is Torre
     if(3 == this->_type) {
         //The respective image to this type of Bullet is defined
         this->setPixmap(QPixmap(":/images/enemyBullet.png"));
@@ -54,6 +54,18 @@ Bullet::Bullet(int pType, int pPosX, int pPosY): QObject(), QGraphicsPixmapItem(
         this->_speedY = 10;
 
     }
+    //If the Bulle is Laser
+    if(4 == this->_type) {
+        //The respective image to this type of Bullet is defined
+        this->setPixmap(QPixmap(":/images/bulletLaser.png"));
+        //The damage that this type of Bullet causes is defined
+        this->_damage = 3;
+        //The speed to move the bullet is defined
+        this->_speedX =10;
+        this->_speedY = -12;
+
+    }
+
 
     //The position in the screen of the bullet is establishes
     this->setPos(pPosX, pPosY);
@@ -67,13 +79,13 @@ Bullet::Bullet(int pType, int pPosX, int pPosY): QObject(), QGraphicsPixmapItem(
 void Bullet::move() {
 
     if (this->type()!=3){
-        this->setPos(this->x(), this->y() + this->_speedY);
+    this->setPos(this->x(), this->y() + this->_speedY);
     }
 }
 
 
 /**
- * @brief Bullet::moveToPlayer - Function that moves the bullet throug the screen towards the player position
+ * @brief Bullet::moveToPlayer
  * @param pPosPlayerX - The position on the X axis of the player
  */
 void Bullet::moveToPlayer(int x, int pPosPlayerY) {
@@ -87,6 +99,10 @@ void Bullet::moveToPlayer(int x, int pPosPlayerY) {
                 this->setPos(this->x()+this->getSpeedX()*2,this->y()+this->_speedY);
             }
         }
+
+
+    // -- move to player
+
 }
 
 

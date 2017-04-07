@@ -9,6 +9,12 @@ Server* server;
  */
 GameWindow::GameWindow(QString pPlayerName, bool pMobileControl, QWidget *parent): QGraphicsView(parent) {
 
+    this->nNivel=1;
+    this->cantidadEnemigos=10;
+    this->llenarLista(cantidadEnemigos);
+    this->jefeCreado=false;
+
+
     //The tittle of the window is defined
     this->setWindowTitle("Air War");
     //The size of the window is defined
@@ -24,7 +30,6 @@ GameWindow::GameWindow(QString pPlayerName, bool pMobileControl, QWidget *parent
     this->_gameScene->setSceneRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
     //Associate the scene with the game window
     this->setScene(this->_gameScene);
-
     //
     this->_gameScene->setBackgroundBrush(QBrush(QImage(":/images/FondoLejos.png"))); // -- Fondo --
 
@@ -83,9 +88,17 @@ GameWindow::GameWindow(QString pPlayerName, bool pMobileControl, QWidget *parent
 
     // -- TEMPORAL --
     this->_spawnTimer = new  QTimer(this);
-    //connect(this->_spawnTimer, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
+    connect(this->_spawnTimer, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
     this->_spawnTimer->start(2000);
     // -- TEMPORAL --
+     this->_spawnTimer = new  QTimer(this);
+    connect(this->_spawnTimer, SIGNAL(timeout()), this, SLOT(detecPared()));
+   this->_spawnTimer->start(500);
+
+
+    this->_spawnTimer = new  QTimer(this);
+    connect(this->_spawnTimer, SIGNAL(timeout()), this, SLOT(randomN()));
+    this->_spawnTimer->start(500);
 
 }
 
@@ -450,6 +463,8 @@ void GameWindow::moveEnemies() {
     if(!this->_enemiesList.isEmpty()) {
         //Move through the Enemies list
         for(int i = 0; i < this->_enemiesList.size(); i++) {
+
+            if(_enemiesList[i]->getEnPantalla()==true){
             //If the current enemy is a Jet Kamikaze
             if(4 == this->_enemiesList[i]->getType()) {
                 //Move the current enemy to the current position of the player
@@ -460,6 +475,8 @@ void GameWindow::moveEnemies() {
                 //Move the current enemy
                 this->_enemiesList[i]->move();
             }
+            }
+
         }
     }
 
@@ -476,16 +493,19 @@ void GameWindow::enemiesShoot() {
         srand(time(NULL));
         //Move throught the Enemies list
         for(int i = 0; i < this->_enemiesList.size(); i++) {
+            if (_enemiesList[i]->getEnPantalla()==true){
             //If the current enemy is not a Jet Kamikaze
             if(4 != this->_enemiesList[i]->getType()) {
                 //Choose a random number to know if the enemy is going to shoot
                 if(1 == (1 + rand() % 2)){
                     int aa=0;
-                    if (_enemiesList[i]->getType()==3){
+                    if (_enemiesList[i]->getType()==3 ||_enemiesList[i]->getType()==5){
+                        qDebug()<< "pasa por aca";
                         aa=3;
                     }
                     //A new Bullet is created and makes the current enemy  shoot
                     Bullet* bullet = new Bullet(aa, this->_enemiesList[i]->x() + (this->_enemiesList[i]->getWidth() / 2) - 11, this->_enemiesList[i]->y()+40);
+                    qDebug()<<"balas:---"<< bullet->x()<<bullet->getType();
                     //The Bullet is added to the player bullet list
                     this->_bulletsList.append(bullet);
                     //The Bullet is added to the game scene
@@ -493,6 +513,7 @@ void GameWindow::enemiesShoot() {
                 }
             }
         }
+      }
     }
 
 
@@ -503,14 +524,15 @@ void GameWindow::enemiesShoot() {
  * @brief GameWindow::bulletsMove - Function that moves all the Bullets through the screen
  */
 void GameWindow::moveBullets() {
-
     //If the game has Bullets in play
     if(!this->_bulletsList.isEmpty()) {
         //Move through the Bullets list
         for(int i = 0; i < this->_bulletsList.size(); i++) {
             //
+
             if(3 == this->_bulletsList[i]->getType()){
                 //
+
                 this->_bulletsList[i]->moveToPlayer(_player->x(),0);
             }
             //Move the curren Bullet
@@ -611,7 +633,7 @@ void GameWindow::detectCollisions() {
                 continue;
             }
             //If the current bullet collides with the player and the bullet is from the enemy and the player has no shield activated
-            if((this->_bulletsList[i]->collidesWithItem(this->_player)) && ((0 == this->_bulletsList[i]->getType()) || (3 == this->_bulletsList[i]->getType())) && !this->_player->haveShield()) {
+              if((this->_bulletsList[i]->collidesWithItem(this->_player)) && ((0 == this->_bulletsList[i]->getType()) || (3 == this->_bulletsList[i]->getType())) && !this->_player->haveShield()) {
                 //Remove the bullet from the game scene
                 this->_gameScene->removeItem(this->_bulletsList[i]);
                 //Remove the bullet from the bullets list of the game
@@ -638,17 +660,144 @@ void GameWindow::detectCollisions() {
 /**
  * @brief GameWindow::spawnEnemys - Function that creates the enemies on screen - "OJO" / TEMPORAL
  */
+int i=0;
 void GameWindow::spawnEnemies() {
 
-    int random_number = rand() % 1200;
-    int random_type = 1 + rand() % 4;
+    qDebug()<<"paso por spawn"<<i<<"   size:"<<_enemiesList.size();
 
-    //random_type = 3;
+        if (_enemiesList.size()==0){
+            qDebug()<<"se acabo el nivel";
+            if (jefeCreado==false){
+                Enemy* enemy =new Jefe(9,rand()%900,0,"");
+                jefeCreado=true;
+                _enemiesList.append(enemy);
+                this->_gameScene->addItem(enemy);
+            }
+            else{
+                qDebug()<< "nuevo nivel!!!";
+                llenarLista(cantidadEnemigos+10);
 
-    Enemy* enemy = new Enemy(random_type, random_number, 0);
+            }
 
-    this->_gameScene->addItem(enemy);
-    this->_enemiesList.append(enemy);
+        }
+        else{
+        if (i>=_enemiesList.size()){
+
+                qDebug()<<"Pasa es que spawn";
+
+                //cantidadEnemigos+=10;
+                //this->llenarLista(cantidadEnemigos);
+                i=0;
+             qDebug()<<"esta en el final de lista "<<_enemiesList.size()<<"enemigos restantes";
+                //Nuevo nivel
+             _enemiesList[_enemiesList.size()-1]->setEnPantalla(true);
+
+             this->_gameScene->addItem(_enemiesList[_enemiesList.size()-1]);
+            }
+            else{
+        qDebug()<<i<<"en pantalla"<<_enemiesList[i]->getType()<<"size:"<<_enemiesList.size();
+        _enemiesList[i]->setEnPantalla(true);
+
+        this->_gameScene->addItem(_enemiesList[i]);
+        i++;
+        }
+
+        }
 
 
 }
+
+void GameWindow::seguirBalas(){
+    qDebug()<<"sfs6"<<_bulletsList.size();
+
+    if(!this->_bulletsList.isEmpty()) {
+        //qDebug()<<"sfs";
+        //Move through the enemies list of the game
+        for(int i = 0; i < this->_bulletsList.size(); i++) {
+                if(_bulletsList[i]->getType()==3){
+
+                    //qDebug()<<"sigue la bala al jugador";
+                    _bulletsList[i]->moveToPlayer(_player->x(),0);
+                }
+        }
+                // qDebug()<<typeid(_enemiesList[i]).name()<<"\t"<<"\n";
+        }
+}
+
+void GameWindow::detecPared(){
+    if(!this->_enemiesList.isEmpty()) {
+        qDebug()<<"sfs";
+        //Move through the enemies list of the game
+        for(int i = 0; i < this->_enemiesList.size(); i++) {
+
+            qDebug()<<i<<"sfsdetec2"<<-_enemiesList[i]->getType();
+            //If the current enemy leaves the screen
+        if (_enemiesList[i]->getType()>=9){
+            qDebug()<<"sfsdetec2";
+
+        if (_enemiesList[i]->x()>=GAME_WINDOW_WIDTH-_enemiesList[i]->getWidth()){
+//            _enemiesList[i]->setPared(true);
+            _enemiesList[i]->setSpeedX(_enemiesList[i]->getSpeedX()*-1);
+
+
+            qDebug()<<"sfspare3";
+           }
+        if (_enemiesList[i]->x()-_enemiesList[i]->getWidth()<=70){
+            qDebug()<<"sfspared4";
+
+            //_enemiesList[i]->setPared(true);
+            _enemiesList[i]->setSpeedX(_enemiesList[i]->getSpeedX()*-1);
+
+                }
+            }
+        }
+    }
+
+}
+bool crearJefe=false;
+void GameWindow::llenarLista(int nEnemy){
+
+    Enemy* enemy;
+    srand(time(NULL));
+    int random_number, random_type;
+    for(int i=0;i<nEnemy;i++){
+        random_number = (i*100)%800;
+        this->randomN();
+        random_type =1+i%7;
+        enemy = new Enemy(random_type, random_number, 0);
+        qDebug()<< random_number<<"    " <<i<<"    "<< random()<<"     "<<random_type<<"pasa por crear enemigo"<<enemy->getType();
+        enemy->setEnPantalla(false);
+        this->_enemiesList.append(enemy);
+        enemy->getType();
+       // random_type = 7;
+    //enemy = new Enemy(random_type, random_number, 0);
+
+    }
+     /*       enemy = new Jefe(9, random_number, 0,"");
+        qDebug()<<"pasa por crear boss";
+            crearJefe=true;
+     enemy->setEnPantalla(false);
+     this->_enemiesList.append(enemy);
+    */
+}
+
+
+
+int GameWindow::hacerRand(int a){
+
+    return 1+rand()%a;
+}
+void GameWindow::spawnJefe(){
+      //  int a =rand%800;
+       // Enemy enemy =new Jefe(5,a,0,"");
+        //_enemiesList.append(enemy);
+        //this->
+
+}
+void GameWindow::randomN(){
+    this->Random1=1+rand()%6;
+
+}
+
+
+

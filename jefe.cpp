@@ -7,12 +7,12 @@ Jefe::Jefe():Enemy(0,0,0){
 Jefe::Jefe(int PosT,int posX,int posY,QString img):Enemy(PosT,posX,posY)
 {
     this->img=img;
-
+    this->setLifePoints(1);
     _width=100;
     _height=50;
    // this->setSpeed(15);
-    this->setSpeedX(10);
-    this->setSeguir(true);
+    this->setSpeedX(-10);
+   // this->setSeguir(true);
     this->setPixmap(QPixmap(":/images/alienboss.png"));
 
 }

@@ -15,7 +15,7 @@
 #include "Bullet.h"
 #include "PowerUp.h"
 #include "Server.h"
-
+#include "jefe.h"
 const int GAME_WINDOW_WIDTH = 1200;
 const int GAME_WINDOW_HEIGHT = 800;
 
@@ -37,8 +37,12 @@ class GameWindow: public QGraphicsView {
         QTimer* _serverCallTimer;
         bool _mobileControl;
         bool _gameOnPause;
-
+        int nNivel;
+        int cantidadEnemigos;
+        int indexEnemigo;
+        bool jefeCreado;
         // -- TEMPORAL --
+        int Random1;
         QTimer* _spawnTimer;
         QList<Enemy*> _enemiesList; //Pasar a las listas hechas por nosotros
         QList<PowerUp*> _powerUpsList;
@@ -54,18 +58,24 @@ class GameWindow: public QGraphicsView {
         void pauseGame();
         void quitPauseGame();
         void gameOver();
+        int hacerRand(int);
+        void llenarLista(int);
 
-    private slots:
+private slots:
         void mobileControlEvent();
         void moveEnemies();
         void enemiesShoot();
         void moveBullets();
         void movePowerUps();
         void detectCollisions();
+        //llena
+        void seguirBalas();
+        void detecPared();
         // -- TEMPORAL --
         void spawnEnemies(); // Los enemigos ya estan definidos al inicial el nivel
+        void spawnJefe ();
         // -- TEMPORAL --
-
+        void randomN();
     public:
         GameWindow(QString, bool, QWidget *parent = 0);
         ~GameWindow();

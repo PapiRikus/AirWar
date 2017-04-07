@@ -29,7 +29,7 @@ class Enemy: public QObject, public QGraphicsPixmapItem {
         bool pared;
         bool imapcto;
         bool seguir;
-
+        bool enPantalla;
     public:
 
         Enemy(int, int, int);
@@ -74,6 +74,9 @@ class Enemy: public QObject, public QGraphicsPixmapItem {
 
         void setSeguir(bool speedX);
         bool getSeguir()const;
+
+        void setEnPantalla(bool);
+        bool getEnPantalla()const;
 
 };
 

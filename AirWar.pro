@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     PowerUp.cpp \
     Server.cpp \
     ListeningThread.cpp \
-    jefe.cpp
+    jefe.cpp \
+    estadisticas.cpp
 
 HEADERS  += \
     GameWindow.h \
@@ -44,7 +45,11 @@ HEADERS  += \
     PowerUp.h \
     Server.h \
     ListeningThread.h \
-    jefe.h
+    jefe.h \
+    estadisticas.h
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES += \
+    alienboss1.png

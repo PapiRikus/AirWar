@@ -10,7 +10,8 @@ Enemy::Enemy(int pType, int pPosX, int pPosY): QObject(), QGraphicsPixmapItem() 
 
     //The type of the Enemy is establishes
     this->_type = pType;
-
+    pPosX=(rand()%800);
+ //   qDebug()<<"psd x inicial:"<<this->x();
     //If the enemy is a Jet
     if(1 == this->_type) {
         //The width of the player is defined
@@ -61,9 +62,24 @@ Enemy::Enemy(int pType, int pPosX, int pPosY): QObject(), QGraphicsPixmapItem() 
         //Average life points
         this->_lifePoints = 2;
         //The respective image to this type of Enemy is defined
+        this->setPixmap(QPixmap(":/images/alien3311.png"));
+    }
+    //Torre misiles
+    else if(5 == this->_type) {
+        this->_width = 70;
+        //The height of the player is defined
+        this->_height = 70;
+        //The score value of this enemy is defined
+        this->_scoreValue = 100;
+        //Average movility
+        this->_speedX = this->_speedY = 2;
+        //High damage
+        this->_damage = 40; // -- ??? --
+        //Average life points
+        this->_lifePoints = 2;
+        //The respective image to this type of Enemy is defined
         this->setPixmap(QPixmap(":/images/alien33.png"));
     }
-
     //If the enemy is a Jet Kamimkaze
     else if(4 == this->_type) {
         //The width of the player is defined
@@ -82,6 +98,44 @@ Enemy::Enemy(int pType, int pPosX, int pPosY): QObject(), QGraphicsPixmapItem() 
         //The respective image to this type of Enemy is defined
         this->setPixmap(QPixmap(":/images/alien22.png"));
     }
+    //PAto 6
+    else if(6 == this->_type) {
+        //The width of the player is defined
+        this->_width = 100;
+        //The height of the player is defined
+        this->_height = 100;
+        //The score value of this enemy is defined
+        this->_scoreValue = 150;
+        //Average movility
+        this->_speedX =1;
+        this->_speedY = 4;
+        //Low damage
+        this->_damage = 80; // -- ??? --
+        //Low life points
+        this->_lifePoints = 1;
+        //The respective image to this type of Enemy is defined
+        this->setPixmap(QPixmap(":/images/duck.png"));
+    }
+
+    //bomba
+    else if(7 == this->_type) {
+        //The width of the player is defined
+        this->_width = 100;
+        //The height of the player is defined
+        this->_height = 100;
+        //The score value of this enemy is defined
+        this->_scoreValue = 150;
+        //Average movility
+        this->_speedX =1;
+        this->_speedY = 4;
+        //Low damage
+        this->_damage = 80; // -- ??? --
+        //Low life points
+        this->_lifePoints = 1;
+        //The respective image to this type of Enemy is defined
+        this->setPixmap(QPixmap(":/images/bombJet.png"));
+    }
+
 
     srand(time(NULL));
 
@@ -290,5 +344,15 @@ bool Enemy::getSeguir() const{
 void Enemy::setSeguir(bool pared) {
 
     this->seguir = pared;
+
+}
+bool Enemy::getEnPantalla() const{
+    return this->enPantalla;
+
+}
+
+void Enemy::setEnPantalla(bool pared) {
+
+    this->enPantalla = pared;
 
 }

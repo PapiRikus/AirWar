@@ -17,5 +17,9 @@
         <file>alien22.png</file>
         <file>towerBullet.png</file>
         <file>alien33.png</file>
+        <file>bulletLaser.png</file>
+        <file>bombJet.png</file>
+        <file>duck.png</file>
+        <file>alien3311.png</file>
     </qresource>
 </RCC>

@@ -38,7 +38,7 @@ Player::Player(QString pName, int pPosX, int pPosY): QObject(), QGraphicsPixmapI
     this->_lives = 3;
 
     //The initial type of bullet is defined
-    this->_weaponType = 1;
+    this->_weaponType = 4;
 
     //The speed to move the player is defined
     this->_speedX = this->_speedY = 12;
