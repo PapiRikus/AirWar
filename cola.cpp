@@ -1,17 +1,24 @@
 #include "cola.h"
-
+/**
+ * @brief cola::cola                this constructor create a referente to file torres.dat
+ */
 cola::cola(): fstream("torres.dat", ios::in | ios::out | ios::binary) {
     if(!good()) {
         open("torres.dat", ios::in | ios::out | ios::trunc | ios::binary);
     }
 }
-
+/**
+ * @brief cola::~cola
+ */
 cola::~cola() {
    while(primero)
    {leer();}
 }
 
-
+/**
+ * @brief cola::Add
+ * @param v             this is a pointer to Enemy this pointer is used for create a new node.
+ */
 void cola::Add(Enemy *v) {
    node*nuevo;
 
@@ -26,7 +33,10 @@ void cola::Add(Enemy *v) {
    if(!primero) primero = nuevo;
 }
 
-
+/**
+ * @brief cola::leer
+ * @return this method return data pointer. this pointer is a reference to enemy
+ */
 Enemy* cola::leer() {
     node *Nodo; // variable auxiliar para manipular nodo
     Enemy *v;
