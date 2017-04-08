@@ -3,6 +3,9 @@
 using namespace std;
 
 // Constructor por defecto
+/**
+ * @brief listaEnemigos::listaEnemigos      this constructor create a reference to file alea.txt. this file save objects type enemy.
+ */
 listaEnemigos::listaEnemigos(): fstream("alea.txt", ios::in | ios::out | ios::binary) {
 
         if(!good()) {
@@ -14,6 +17,10 @@ listaEnemigos::listaEnemigos(): fstream("alea.txt", ios::in | ios::out | ios::bi
 }
 
 // Insertar al inicio
+/**
+ * @brief listaEnemigos::add_head
+ * @param data_         data_ is a pointer to Enemy whith this pointer the algorithm can create a new node
+ */
 void listaEnemigos::add_head(Enemy *data_)
 {
     node *new_node = new node (data_);
@@ -41,6 +48,10 @@ void listaEnemigos::add_head(Enemy *data_)
     this->numeroNodos++;
 }
 //retornar esta vacio
+/**
+ * @brief listaEnemigos::estavacio
+ * @return this method return the value true if this list is void.
+ */
 bool listaEnemigos::estavacio(){
     if(this->numeroNodos == 0){
         return true;
@@ -50,10 +61,16 @@ bool listaEnemigos::estavacio(){
 }
 
 //libera el ultimo elemento de la cadena del string
+/**
+ * @brief listaEnemigos::getNumeroNodos
+ * @return return the number of nodes
+ */
 int listaEnemigos::getNumeroNodos(){
     return numeroNodos;
 }
-
+/**
+ * @brief listaEnemigos::LiberarUltimoElemento      this method delete de last node in this list
+ */
 void  listaEnemigos::LiberarUltimoElemento(){
 
         if (!this->m_head) {
@@ -72,7 +89,10 @@ void  listaEnemigos::LiberarUltimoElemento(){
                 temp1->next = NULL;
             }
 }
-
+/**
+ * @brief listaEnemigos::add_end                    this method add a new node in the last position of this list
+ * @param data_                                                      this param is used to create a new node
+ */
 void listaEnemigos::add_end(Enemy *data_)
 {
     node *new_node = new node (data_);
@@ -111,60 +131,14 @@ void listaEnemigos::add_end(Enemy *data_)
                  temp = temp->next;
              }
          }else{return temporal->data;}
-/*
-         if((this->numeroNodos==0)&&(pos>this->numeroNodos)){
-             //qDebug()<<"soy vacio";
-         }else{
-             node *temp =  this->m_head;
-         //   if(pos==this->posicion[0]||pos==this->posicion[1]||pos == this->posicion[2]||pos==this->posicion[3]||pos==this->posicion[4]){
-               for (int var = 0;  var  <= 5;  var++) {
-                     if(pos==this->posicion[var])
-                     {
-                        // qDebug()<<"entro";
-                         return temp->data;
-                     }
-                     temp = temp->next;
-             }
-            }else{
-                node *tmp = this->m_head;
-                while(tmp->next!=NULL ){
-                    tmp = tmp->next;
-                }
-           //  this->SobrescribirArchivo(x,*tmp->data);
-                this->LiberarUltimoElemento();
-                this->posicion[4] = this->posicion[3];
-                this->posicion[3] = this->posicion[2];
-                this->posicion[2] = this->posicion[1];
-                this->posicion[1] = this->posicion[0];
-                this->posicion[0] = x;
-               // Enemy *temp = new Enemy(0,0,0);
-                this->RecuperarArchivo(x,*tmp->data);
-                node *temporal = new node(tmp->data);
-                temporal->next = this->m_head;
-                this->m_head = temporal;
-                //qDebug()<<"recupero el archivo";
 
-                return m_head->data;
-
-                }
-         }*/
-
-      //   return temporal->data;
  }
 
  //removeOne
   void listaEnemigos::removeone(Enemy * value){
       node *temp;
       bool valor = true;
-      /*int var = 0;
-      while(!temp){
-          if(value == temp->data){
-                this->eliminarrposi(var);
-          }else{
-              temp =  temp->next;
-              var = var + 1;
-          }
-      }*/
+
       for (int var = 0; var < this->numeroNodos; ++var) {
           if(value == temp->data){
               this->eliminarrposi(var);
